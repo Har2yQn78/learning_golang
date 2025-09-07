@@ -47,50 +47,60 @@ func main() {
 		i++
 	}
 
-	for f := 0; f<4; f++{
+	for f := 0; f < 4; f++ {
 		fmt.Println("f =", f)
 		f++
 	}
 
-	for  i := 1; i <= 3; i++ {
-        // Inner loop: controls columns
-        for j := 1; j <= 3; j++ {
-            fmt.Printf("%d × %d = %d\t", i, j, i*j)
-        }
-        fmt.Println() 
-    }
+	for i := 1; i <= 3; i++ {
+		// Inner loop: controls columns
+		for j := 1; j <= 3; j++ {
+			fmt.Printf("%d × %d = %d\t", i, j, i*j)
+		}
+		fmt.Println()
+	}
 
-	size := 4 
+	size := 4
 
-    for i := 0; i < size; i++ {         
-        for j := 0; j < size; j++ {     
-            fmt.Print("* ")             
-        }
-        fmt.Println()                  
-    }
-	
+	for i := 0; i < size; i++ {
+		for j := 0; j < size; j++ {
+			fmt.Print("* ")
+		}
+		fmt.Println()
+	}
 
 	for i := 1; i <= 3; i++ {
-        for j := 3; j > i; j-- {
-            fmt.Print(" ")
-        }
-        for k := 1; k <= i*2-1; k++ {
-            fmt.Print("*")
-        }
-        fmt.Println()
-    }
+		for j := 3; j > i; j-- {
+			fmt.Print(" ")
+		}
+		for k := 1; k <= i*2-1; k++ {
+			fmt.Print("*")
+		}
+		fmt.Println()
+	}
 
-    for i := 2; i >= 1; i-- {
-        for j := 3; j > i; j-- {
-            fmt.Print(" ")
-        }
-        for k := 1; k <= i*2-1; k++ {
-            fmt.Print("*")
-        }
-        fmt.Println()
-    }
+	for i := 2; i >= 1; i-- {
+		for j := 3; j > i; j-- {
+			fmt.Print(" ")
+		}
+		for k := 1; k <= i*2-1; k++ {
+			fmt.Print("*")
+		}
+		fmt.Println()
+	}
 
+	fmt.Println(number <= 24)
+	fmt.Println(number != 23)
 
+	if number < 25 {
+		fmt.Println("So What?")
+	} else if number > 25 {
+		fmt.Println("Also So What?")
+	} else {
+		fmt.Println("for real, So What?")
+	}
+
+	// some typical for loop to draw shapes
 
 	// fmt.Print("Hello") // without ln, dosent add a new line
 	// fmt.Print(name)
