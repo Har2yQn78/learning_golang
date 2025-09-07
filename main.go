@@ -17,10 +17,20 @@ func main() {
 
 	name2 := "AI" // this can only be used inside the function
 
+	// Arrays
+	var numbers[6]int = [6]int{23, 25, 27, 28, 32, 56}
+	numbers[5] = 52
+	var scores = []int{34, 46, 756, 12}
+	scores = append(scores, 14)
+	rangenumbers := numbers[0:3]
+
 	fmt.Printf("Hello my name is %v, my age is somrthing betwwen %v and %v and you know what %v %v \n",
 	name, number, number3, name2, name2)
 	fmt.Print("Lets Rock")
 	fmt.Println("\nOK?")
+	fmt.Println(numbers, len(numbers))
+	fmt.Println(scores)
+	fmt.Println(rangenumbers)
 
 	// fmt.Print("Hello") // without ln, dosent add a new line
 	// fmt.Print(name)
