@@ -2,7 +2,21 @@ package main
 
 import "fmt"
 
+var globalname string = "Global" // this is a gloabl var and can be used in all the main package
+
 func main() {
-	fmt.Println("Hello World")
+	var name string = "Harry"
+
+	var name3 = "Jass" // can be use without saying it is string because we make a string var once inside the func
+
+	var number int = 23 // can use int8-16-32-64 for memory
+
+	var number2 uint = 22 // can not use as negetive number
+
+	var number3 float64 = 22.23 // can only have float64 and float32
+
+	name2 := "AI" // this can only be used inside the function
+
+	fmt.Println("Hello", name, name2, name2, number, globalname, name3, number2, number3)
 }
 
