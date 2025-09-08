@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"sort"
 	"strings"
-	"math"
 )
 
 func Greeting(n string) {
@@ -35,6 +35,12 @@ func main() {
 	rangenumbers := numbers[0:3]
 	ages := []int{25, 23, 24, 22, 21, 45, 56, 75, 78}
 	i := 0
+	menu := map[string]float64{
+		"coffee": 2.5,
+		"iced coffee": 3.0,
+		"latte": 2.8,
+		"iced latte": 3.5,
+	}
 
 	sort.Ints(ages) // sort numbers in order  -  can also worked for string  - typical basic methods
 	index := sort.SearchInts(ages, 24)
@@ -113,9 +119,14 @@ func main() {
 
 	Greeting("Loop Breaker")
 
-	fmt.Println(a1,"\n",a2)
+	fmt.Println(a1, "\n", a2)
+	fmt.Println(menu)
+	fmt.Println(menu["coffee"])
 
-	
+	for k, v := range menu{
+		fmt.Println(k,"-",v)
+	}
+
 	// some typical for loop to draw shapes
 	// fmt.Print("Hello") // without ln, dosent add a new line
 	// fmt.Print(name)
