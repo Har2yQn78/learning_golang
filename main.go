@@ -4,7 +4,16 @@ import (
 	"fmt"
 	"sort"
 	"strings"
+	"math"
 )
+
+func Greeting(n string) {
+	fmt.Printf("Hello There\nGeneral %v\n", n)
+}
+
+func CircleArea(r float64) float64 {
+	return math.Pi * r * r
+}
 
 var globalname string = "Global" // this is a gloabl var and can be used in all the main package
 
@@ -18,6 +27,8 @@ func main() {
 	name2 := "AI"                    // this can only be used inside the function
 	// Arrays
 	var numbers [6]int = [6]int{23, 25, 27, 28, 32, 56}
+	a1 := CircleArea(4.3)
+	a2 := CircleArea(10.5)
 	numbers[5] = 52
 	var scores = []int{34, 46, 756, 12}
 	scores = append(scores, 14)
@@ -100,9 +111,12 @@ func main() {
 		fmt.Println("for real, So What?")
 	}
 
-	// some typical for loop to draw shapes
+	Greeting("Loop Breaker")
 
+	fmt.Println(a1,"\n",a2)
+
+	
+	// some typical for loop to draw shapes
 	// fmt.Print("Hello") // without ln, dosent add a new line
 	// fmt.Print(name)
-
 }
