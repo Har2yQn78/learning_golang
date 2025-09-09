@@ -40,10 +40,10 @@ func main() {
 	ages := []int{25, 23, 24, 22, 21, 45, 56, 75, 78}
 	i := 0
 	menu := map[string]float64{
-		"coffee": 2.5,
+		"coffee":      2.5,
 		"iced coffee": 3.0,
-		"latte": 2.8,
-		"iced latte": 3.5,
+		"latte":       2.8,
+		"iced latte":  3.5,
 	}
 
 	sort.Ints(ages) // sort numbers in order  -  can also worked for string  - typical basic methods
@@ -127,8 +127,8 @@ func main() {
 	fmt.Println(menu)
 	fmt.Println(menu["coffee"])
 
-	for k, v := range menu{
-		fmt.Println(k,"-",v)
+	for k, v := range menu {
+		fmt.Println(k, "-", v)
 	}
 
 	name4 := "Alex"
@@ -140,6 +140,10 @@ func main() {
 	fmt.Println("memory address:", m)
 	fmt.Println("value at memory address:", *m)
 	fmt.Println(name4)
+
+	mybill := newBill("Harry's bill")
+
+	fmt.Println(mybill.format())
 
 	// some typical for loop to draw shapes
 	// fmt.Print("Hello") // without ln, dosent add a new line
