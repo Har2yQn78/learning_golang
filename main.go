@@ -11,6 +11,10 @@ func Greeting(n string) {
 	fmt.Printf("Hello There\nGeneral %v\n", n)
 }
 
+func updatename(x *string) {
+	*x = "Harry"
+}
+
 func CircleArea(r float64) float64 {
 	return math.Pi * r * r
 }
@@ -126,6 +130,16 @@ func main() {
 	for k, v := range menu{
 		fmt.Println(k,"-",v)
 	}
+
+	name4 := "Alex"
+	fmt.Println(name4)
+	fmt.Println("memory address of name4 is :", &name4)
+	m := &name4
+	updatename(m)
+	fmt.Println(name4)
+	fmt.Println("memory address:", m)
+	fmt.Println("value at memory address:", *m)
+	fmt.Println(name4)
 
 	// some typical for loop to draw shapes
 	// fmt.Print("Hello") // without ln, dosent add a new line
