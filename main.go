@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"math"
+	"os"
 	"sort"
 	"strings"
 )
@@ -17,6 +19,32 @@ func updatename(x *string) {
 
 func CircleArea(r float64) float64 {
 	return math.Pi * r * r
+}
+
+func getInput(prompt string, r *bufio.Reader) (string, error) {
+	fmt.Print(prompt)
+	input, err := r.ReadString('\n')
+	
+	return strings.TrimSpace(input), err
+}
+
+func createBill() bill {
+	reader := bufio.NewReader(os.Stdin)
+	// fmt.Print("Create a new bill name: ")
+	// billname, _ := reader.ReadString('\n')
+	// billname = strings.TrimSpace(billname)
+	billname, _ := getInput("Create a new bill name: ", reader)
+
+	b := newBill(billname)
+	fmt.Println("Created the bill -", b.name)
+
+	return b
+}
+
+func promptOptions(b bill) {
+	reader := bufio.NewReader(os.Stdin)
+	opt, _ := getInput("Choose Option (A - add item, S - save bill, t - add tip): ", reader)	
+	fmt.Println(opt)
 }
 
 var globalname string = "Global" // this is a gloabl var and can be used in all the main package
@@ -143,8 +171,21 @@ func main() {
 
 	mybill := newBill("Harry's bill")
 
+	mybill.addItem("Iced Coffee", 98)
+	mybill.addItem("COld Brew", 140)
+	mybill.addItem("Crossant", 178)
+	mybill.addItem("Coockie", 80)
+
+	mybill.updateTip(30)
 	fmt.Println(mybill.format())
 
+
+
+	userbill := createBill()
+	promptOptions(userbill)
+
+	
+	// fmt.Println(userbill)
 	// some typical for loop to draw shapes
 	// fmt.Print("Hello") // without ln, dosent add a new line
 	// fmt.Print(name)
