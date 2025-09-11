@@ -10,6 +10,19 @@ import (
 	"strings"
 )
 
+type shape interface {
+	area() float64
+	circumf() float64
+}
+
+type square struct {
+	length float64
+}
+type circle struct {
+	radius float64
+}
+
+
 func Greeting(n string) {
 	fmt.Printf("Hello There\nGeneral %v\n", n)
 }
@@ -18,8 +31,25 @@ func updatename(x *string) {
 	*x = "Harry"
 }
 
-func CircleArea(r float64) float64 {
-	return math.Pi * r * r
+func (s square) area() float64 {
+	return s.length * s.length
+}
+func (s square) circumf() float64 {
+	return s.length * 4
+}
+
+// circle methods
+func (c circle) area() float64 {
+	return math.Pi * c.radius * c.radius
+}
+func (c circle) circumf() float64 {
+	return 2 * math.Pi * c.radius
+}
+
+
+func printShapeInfo(s shape) {
+	fmt.Printf("area of %T is: %0.2f \n", s, s.area())
+	fmt.Printf("circumference of %T is: %0.2f \n", s, s.circumf())
 }
 
 func getInput(prompt string, r *bufio.Reader) (string, error) {
@@ -90,8 +120,6 @@ func main() {
 	name2 := "AI"                    // this can only be used inside the function
 	// Arrays
 	var numbers [6]int = [6]int{23, 25, 27, 28, 32, 56}
-	a1 := CircleArea(4.3)
-	a2 := CircleArea(10.5)
 	numbers[5] = 52
 	var scores = []int{34, 46, 756, 12}
 	scores = append(scores, 14)
@@ -181,8 +209,6 @@ func main() {
 	}
 
 	Greeting("Loop Breaker")
-
-	fmt.Println(a1, "\n", a2)
 	fmt.Println(menu)
 	fmt.Println(menu["coffee"])
 
@@ -214,6 +240,18 @@ func main() {
 
 	userbill := createBill()
 	promptOptions(userbill)
+
+	shapes := []shape{
+		square{length: 15.2},
+		circle{radius: 7.5},
+		circle{radius: 12.3},
+		square{length: 4.9},
+	}
+
+	for _, v := range shapes {
+		printShapeInfo(v)
+		fmt.Println("---")
+	}
 
 
 	// fmt.Println(userbill)
