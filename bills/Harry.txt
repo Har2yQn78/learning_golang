@@ -1,0 +1,8 @@
+Bill breakdown:
+Coffe:                    ...98
+latte:                    ...140
+Milkshake:                ...180
+coockie:                  ...60
+croissant:                ...190
+tip:                      ...35
+total:                    ...703.00

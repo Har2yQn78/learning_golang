@@ -6,6 +6,7 @@ import (
 	"math"
 	"os"
 	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -43,8 +44,38 @@ func createBill() bill {
 
 func promptOptions(b bill) {
 	reader := bufio.NewReader(os.Stdin)
-	opt, _ := getInput("Choose Option (A - add item, S - save bill, t - add tip): ", reader)	
-	fmt.Println(opt)
+	opt, _ := getInput("Choose Option (A - add item, S - save bill, t - add tip, X - to exit): ", reader)	
+	switch strings.ToUpper(opt) {
+	case "A":
+		name, _ := getInput("Item name: ", reader)
+		price, _ := getInput("Item's price: ", reader)
+		p, err := strconv.ParseFloat(price, 64)
+		if err != nil {
+			fmt.Println("The Price must be a number")
+			promptOptions(b)
+		}
+		b.addItem(name, p)
+		fmt.Println("Item added - ", name, price)
+		promptOptions(b)
+	case "T":
+		tip, _ := getInput("Enter Tip amoung: ", reader)
+		t, err := strconv.ParseFloat(tip, 64)
+		if err != nil {
+			fmt.Println("The tip must be a number")
+			promptOptions(b)
+		}
+		b.updateTip(t)
+		fmt.Println("tip added -", tip)
+		promptOptions(b)
+	case "S":
+		b.save()
+		fmt.Println("you Saved file - ", b.name)
+	case "X":
+		fmt.Println("you choose to exit without save")
+	default:
+		fmt.Println("Invalid Option")
+		promptOptions(b)
+	}
 }
 
 var globalname string = "Global" // this is a gloabl var and can be used in all the main package
@@ -184,7 +215,7 @@ func main() {
 	userbill := createBill()
 	promptOptions(userbill)
 
-	
+
 	// fmt.Println(userbill)
 	// some typical for loop to draw shapes
 	// fmt.Print("Hello") // without ln, dosent add a new line
