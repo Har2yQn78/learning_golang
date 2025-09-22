@@ -1,261 +1,43 @@
 package main
 
-import (
-	"bufio"
+import(
 	"fmt"
-	"math"
-	"os"
-	"sort"
-	"strconv"
-	"strings"
+	"log"
+	"net/http"
 )
 
-type shape interface {
-	area() float64
-	circumf() float64
-}
-
-type square struct {
-	length float64
-}
-type circle struct {
-	radius float64
-}
-
-
-func Greeting(n string) {
-	fmt.Printf("Hello There\nGeneral %v\n", n)
-}
-
-func updatename(x *string) {
-	*x = "Harry"
-}
-
-func (s square) area() float64 {
-	return s.length * s.length
-}
-func (s square) circumf() float64 {
-	return s.length * 4
-}
-
-// circle methods
-func (c circle) area() float64 {
-	return math.Pi * c.radius * c.radius
-}
-func (c circle) circumf() float64 {
-	return 2 * math.Pi * c.radius
-}
-
-
-func printShapeInfo(s shape) {
-	fmt.Printf("area of %T is: %0.2f \n", s, s.area())
-	fmt.Printf("circumference of %T is: %0.2f \n", s, s.circumf())
-}
-
-func getInput(prompt string, r *bufio.Reader) (string, error) {
-	fmt.Print(prompt)
-	input, err := r.ReadString('\n')
-	
-	return strings.TrimSpace(input), err
-}
-
-func createBill() bill {
-	reader := bufio.NewReader(os.Stdin)
-	// fmt.Print("Create a new bill name: ")
-	// billname, _ := reader.ReadString('\n')
-	// billname = strings.TrimSpace(billname)
-	billname, _ := getInput("Create a new bill name: ", reader)
-
-	b := newBill(billname)
-	fmt.Println("Created the bill -", b.name)
-
-	return b
-}
-
-func promptOptions(b bill) {
-	reader := bufio.NewReader(os.Stdin)
-	opt, _ := getInput("Choose Option (A - add item, S - save bill, t - add tip, X - to exit): ", reader)	
-	switch strings.ToUpper(opt) {
-	case "A":
-		name, _ := getInput("Item name: ", reader)
-		price, _ := getInput("Item's price: ", reader)
-		p, err := strconv.ParseFloat(price, 64)
-		if err != nil {
-			fmt.Println("The Price must be a number")
-			promptOptions(b)
-		}
-		b.addItem(name, p)
-		fmt.Println("Item added - ", name, price)
-		promptOptions(b)
-	case "T":
-		tip, _ := getInput("Enter Tip amoung: ", reader)
-		t, err := strconv.ParseFloat(tip, 64)
-		if err != nil {
-			fmt.Println("The tip must be a number")
-			promptOptions(b)
-		}
-		b.updateTip(t)
-		fmt.Println("tip added -", tip)
-		promptOptions(b)
-	case "S":
-		b.save()
-		fmt.Println("you Saved file - ", b.name)
-	case "X":
-		fmt.Println("you choose to exit without save")
-	default:
-		fmt.Println("Invalid Option")
-		promptOptions(b)
+func harryHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/harry" {
+		http.Error(w, "404 not found", http.StatusNotFound)
+		return
 	}
+	if r.Method != "GET" {
+		http.Error(w, "method is not supported", http.StatusNotFound)
+	}
+	fmt.Fprint(w, "Harry Was Here")
 }
 
-var globalname string = "Global" // this is a gloabl var and can be used in all the main package
+func formHandler(w http.ResponseWriter, r *http.Request) { // build function to handle the POST request
+	if err := r.ParseForm(); err != nil {
+		fmt.Fprintf(w, "ParseForm() err: %v", err)
+		return
+	}
+	fmt.Fprintf(w, "POST request successful")
+	name := r.FormValue("name")
+	address := r.FormValue("address")
+	fmt.Fprintf(w, "Name = %s\n", name)
+	fmt.Fprintf(w, "Address = %s\n", address)
+}
+
 
 func main() {
-	var name string = "Harry"
-	var greeting = "Hello World"
-	// var name3 = "Jass" // can be use without saying it is string because we make a string var once inside the func
-	var number int = 23 // can use int8-16-32-64 for memory
-	//var number2 uint = 22 // can not use as negetive number
-	var number3 float64 = 74691.3757 // can only have float64 and float32
-	name2 := "AI"                    // this can only be used inside the function
-	// Arrays
-	var numbers [6]int = [6]int{23, 25, 27, 28, 32, 56}
-	numbers[5] = 52
-	var scores = []int{34, 46, 756, 12}
-	scores = append(scores, 14)
-	rangenumbers := numbers[0:3]
-	ages := []int{25, 23, 24, 22, 21, 45, 56, 75, 78}
-	i := 0
-	menu := map[string]float64{
-		"coffee":      2.5,
-		"iced coffee": 3.0,
-		"latte":       2.8,
-		"iced latte":  3.5,
+	fileserver := http.FileServer(http.Dir("./static"))
+	http.Handle("/", fileserver) // url route
+	http.HandleFunc("/form", formHandler) // url route and cal a function
+	http.HandleFunc("/harry", harryHandler)
+
+	fmt.Println("Starting server at 8080\n")
+	if err := http.ListenAndServe(":8080", nil); err !=nil {
+		log.Fatal(err)
 	}
-
-	sort.Ints(ages) // sort numbers in order  -  can also worked for string  - typical basic methods
-	index := sort.SearchInts(ages, 24)
-
-	fmt.Printf("Hello my name is %v, my age is somrthing betwwen %v and %v and you know what %v %v \n",
-		name, number, number3, name2, name2)
-	fmt.Print("Lets Rock")
-	fmt.Println("\nOK?")
-	fmt.Println(numbers, len(numbers))
-	fmt.Println(scores)
-	fmt.Println(rangenumbers)
-	fmt.Println(strings.Contains(greeting, "Hello")) // just some basic import and package
-	fmt.Println(strings.ReplaceAll(greeting, "World", "Harry"))
-	fmt.Println(strings.ToUpper(greeting)) //typical upper method in all lang
-	fmt.Println(strings.Index(greeting, "W"))
-	fmt.Println(ages)
-	fmt.Println(index)
-
-	for i <= 3 {
-		fmt.Println("i =", i)
-		i++
-	}
-
-	for f := 0; f < 4; f++ {
-		fmt.Println("f =", f)
-		f++
-	}
-
-	for i := 1; i <= 3; i++ {
-		// Inner loop: controls columns
-		for j := 1; j <= 3; j++ {
-			fmt.Printf("%d × %d = %d\t", i, j, i*j)
-		}
-		fmt.Println()
-	}
-
-	size := 4
-
-	for i := 0; i < size; i++ {
-		for j := 0; j < size; j++ {
-			fmt.Print("* ")
-		}
-		fmt.Println()
-	}
-
-	for i := 1; i <= 3; i++ {
-		for j := 3; j > i; j-- {
-			fmt.Print(" ")
-		}
-		for k := 1; k <= i*2-1; k++ {
-			fmt.Print("*")
-		}
-		fmt.Println()
-	}
-
-	for i := 2; i >= 1; i-- {
-		for j := 3; j > i; j-- {
-			fmt.Print(" ")
-		}
-		for k := 1; k <= i*2-1; k++ {
-			fmt.Print("*")
-		}
-		fmt.Println()
-	}
-
-	fmt.Println(number <= 24)
-	fmt.Println(number != 23)
-
-	if number < 25 {
-		fmt.Println("So What?")
-	} else if number > 25 {
-		fmt.Println("Also So What?")
-	} else {
-		fmt.Println("for real, So What?")
-	}
-
-	Greeting("Loop Breaker")
-	fmt.Println(menu)
-	fmt.Println(menu["coffee"])
-
-	for k, v := range menu {
-		fmt.Println(k, "-", v)
-	}
-
-	name4 := "Alex"
-	fmt.Println(name4)
-	fmt.Println("memory address of name4 is :", &name4)
-	m := &name4
-	updatename(m)
-	fmt.Println(name4)
-	fmt.Println("memory address:", m)
-	fmt.Println("value at memory address:", *m)
-	fmt.Println(name4)
-
-	mybill := newBill("Harry's bill")
-
-	mybill.addItem("Iced Coffee", 98)
-	mybill.addItem("COld Brew", 140)
-	mybill.addItem("Crossant", 178)
-	mybill.addItem("Coockie", 80)
-
-	mybill.updateTip(30)
-	fmt.Println(mybill.format())
-
-
-
-	userbill := createBill()
-	promptOptions(userbill)
-
-	shapes := []shape{
-		square{length: 15.2},
-		circle{radius: 7.5},
-		circle{radius: 12.3},
-		square{length: 4.9},
-	}
-
-	for _, v := range shapes {
-		printShapeInfo(v)
-		fmt.Println("---")
-	}
-
-
-	// fmt.Println(userbill)
-	// some typical for loop to draw shapes
-	// fmt.Print("Hello") // without ln, dosent add a new line
-	// fmt.Print(name)
 }
