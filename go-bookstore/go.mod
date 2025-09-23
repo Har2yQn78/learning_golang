@@ -1,4 +1,4 @@
-module github.com/Har2yQn78/learning_golang
+module github.com/Har2yQn78/go-bookstore
 
 go 1.25.1
 
